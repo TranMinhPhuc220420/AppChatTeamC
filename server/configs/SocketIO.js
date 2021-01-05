@@ -15,7 +15,7 @@ module.exports = (io) => {
 
         socket.on("user-login", (uid) => {
             console.log("Người dùng đăng nhập: ", uid);
-            User.findById(uid).   exec((err, user) => {
+            User.findById(uid).exec((err, user) => {
                 if (user) {
                     user.is_online = true;
                     user.save();
@@ -33,7 +33,7 @@ module.exports = (io) => {
             });
         });
 
-        socket.on("user-send-message", ({ conversation, newMessage }) => {
+        socket.on("user-send-message", ({conversation, newMessage}) => {
             console.log("User send message to server");
             socket.to(`chat-${conversation._id}`).emit(
                 "receive-message",
@@ -44,27 +44,34 @@ module.exports = (io) => {
             );
         });
 
-        socket.on("user-typing-message", ({ cid, uid, isTyping, name }) => {
+        socket.on("user-typing-message", ({cid, uid, isTyping, name}) => {
             socket
                 .to(`chat-${cid}`)
-                .emit("user-typing", { cid, uid, isTyping, name });
+                .emit("user-typing", {cid, uid, isTyping, name});
         });
 
-        socket.on("user-join-room", ({ roomId }) => {
+        socket.on("user-join-room", ({roomId}) => {
             console.log(`A user joined chat-${roomId}`);
             socket.join(`chat-${roomId}`);
         });
 
-        socket.on("new-conversation", ({ conversation, createId }) => {
+        socket.on("new-conversation", ({conversation, createId}) => {
             const otherId =
                 conversation.f_id === createId
                     ? conversation.s_id
                     : conversation.f_id;
-            
+
             socket.broadcast.emit("add-new-conversation", {
                 conversation: conversation,
                 receiveId: otherId,
             });
         });
+
+        socket.on("product-reduction", (_idProduct) => {
+            console.log("product-reduction");
+            console.log(_idProduct)
+            socket.emit('update-product');
+        });
+
     });
 };

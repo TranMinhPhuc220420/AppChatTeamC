@@ -6,6 +6,10 @@ const ProductSchema = new Schema({
         type: String,
         require: true,
     },
+    image: {
+        type: String,
+        required: true
+    },
     price: {
         type: Number,
         required: true
@@ -13,10 +17,7 @@ const ProductSchema = new Schema({
     description: {
         type: String
     },
-    count: {
-        type: Number,
-        required: true
-    },
+
     discount: {
         timeStart: {
             type: Date,
@@ -24,8 +25,18 @@ const ProductSchema = new Schema({
         timeEnd: {
             type: Date,
         },
-        percent: {
+        price: {
             type: Number,
+            required: true
+        },
+        count: {
+            type: Number,
+            required: true
+        },
+        sold:{
+            type: Number,
+            required: true,
+            default: 0
         }
     }
 });

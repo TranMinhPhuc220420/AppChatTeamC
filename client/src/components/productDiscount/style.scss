@@ -1,0 +1,35 @@
+.card {
+  margin: 10px 0;
+}
+
+.view .Ripple-parent {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  padding: 20px 0;
+}
+
+.image-product {
+  width: 50%;
+}
+
+.text-decoration-line-through {
+  text-decoration: line-through;
+}
+
+.options-price {
+  display: flex;
+  justify-content: space-between;
+}
+
+.status {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.count {
+  .card-text {
+    margin: 0;
+  }
+}

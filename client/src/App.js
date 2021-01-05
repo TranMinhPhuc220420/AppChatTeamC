@@ -6,6 +6,7 @@ import RegisterUser from "./components/user/Register";
 import LoginAdmin from "./components/admin/Login";
 import UserChat from "./components/user/chat/Chat";
 import AdminChat from "./components/admin/chat/Chat";
+import productDiscount from "./components/productDiscount";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/scss/styles.scss";
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
                 <Route exact path="/chat/:id" component={UserChat} />
                 <Route exact path="/admin/chat/:id" component={AdminChat} />
                 <Route exact path="/admin/chat/" component={AdminChat} />
+                <Route exact path="/product-discount" component={productDiscount} />
             </Switch>
         </Router>
     );
