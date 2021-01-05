@@ -67,11 +67,8 @@ module.exports = (io) => {
             });
         });
 
-        socket.on("product-reduction", (_idProduct) => {
-            console.log("product-reduction");
-            console.log(_idProduct)
-            socket.emit('update-product');
+        socket.on("product-reduction",() => {
+            socket.broadcast.emit('update-product');
         });
-
     });
 };

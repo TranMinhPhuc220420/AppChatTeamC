@@ -12,8 +12,8 @@ exports.addNew = async (req, res) => {
             discount: {
                 timeStart: new Date("01-02-2021 24:00:00"),
                 timeEnd: new Date("01-10-2021 24:00:00"),
-                price: 50,
-                count: 10,
+                price: 1449000,
+                count: 3,
             }
         },
         {
@@ -24,8 +24,8 @@ exports.addNew = async (req, res) => {
             discount: {
                 timeStart: new Date("01-05-2021 24:00:00"),
                 timeEnd: new Date("01-15-2021 24:00:00"),
-                count: 15,
-                price: 20
+                count: 8,
+                price: 2149000
             }
         },
         {
@@ -37,7 +37,7 @@ exports.addNew = async (req, res) => {
                 timeStart: new Date("01-04-2021 24:00:00"),
                 timeEnd: new Date("01-06-2021 24:00:00"),
                 count: 5,
-                price: 10
+                price: 1949000
             }
         },
         {
@@ -48,8 +48,8 @@ exports.addNew = async (req, res) => {
             discount: {
                 timeStart: new Date("01-10-2021 24:00:00"),
                 timeEnd: new Date("01-15-2021 24:00:00"),
-                count: 50,
-                price: 50
+                count: 1,
+                price: 1549000
             }
         },
         {
@@ -61,7 +61,7 @@ exports.addNew = async (req, res) => {
                 timeStart: new Date("01-01-2021 24:00:00"),
                 timeEnd: new Date("01-20-2021 24:00:00"),
                 count: 10,
-                price: 5
+                price: 1099000
             }
         }
     ];
@@ -95,16 +95,20 @@ exports.reductionDiscount = async (req, res) => {
     console.log(_idProduct)
     const productFindForWork = await Product.findById(_idProduct);
 
-    //Check count
-    if (productFindForWork.discount.count > 0) {
-        productFindForWork.discount.count  = productFindForWork.discount.count - 1;
-        productFindForWork.discount.sold  = productFindForWork.discount.sold + 1;
+    if (productFindForWork) {
+        //Check count
+        if (productFindForWork.discount.count > 0) {
+            productFindForWork.discount.count = productFindForWork.discount.count - 1;
+            productFindForWork.discount.sold = productFindForWork.discount.sold + 1;
+        }
+        productFindForWork.save()
+            .then(result => {
+                res.status(200).json({product: productFindForWork, msg: "ok"})
+            })
+            .catch(error => {
+                res.status(500).json({msg: "error server"})
+            });
+    }else{
+        res.status(404).json({msg: 'Không tìm thấy sản phẩm vừa chọn'})
     }
-    productFindForWork.save()
-        .then(result => {
-            res.status(200).json({product: productFindForWork, msg: "ok"})
-        })
-        .catch(error => {
-            res.status(500).json({msg: "error server"})
-        });
 };
