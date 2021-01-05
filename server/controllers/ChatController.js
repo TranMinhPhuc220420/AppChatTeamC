@@ -2,7 +2,7 @@ const User = require("../models/User");
 const Conversation = require("../models/Conversation");
 
 exports.findPeople = async (req, res) => {
-    const { s } = req.query;
+    let { s } = req.query;
     if (s === undefined) s = "";
     const result = await User.find({ username: new RegExp(s, "i") })
         .select("-password")
@@ -90,7 +90,9 @@ exports.sendMessage = async (req, res) => {
         return res
             .status(400)
             .json({ message: "Quên dữ liệu - (cid, content, uid)!" });
+
     const conversation = await Conversation.findById(cid);
+
     if (!conversation)
         res.status(404).json({ message: "Không tìm thấy cuộc trò chuyện!" });
     const currentTime = Date.now();
@@ -100,9 +102,11 @@ exports.sendMessage = async (req, res) => {
         content: content,
         time: currentTime,
     });
+
     conversation.l_message = content;
     conversation.l_sender = username;
     conversation.l_update = currentTime;
+
     conversation.save((err, cv) => {
         if (err) {
             console.log(err);
@@ -110,6 +114,7 @@ exports.sendMessage = async (req, res) => {
                 .status(500)
                 .json({ message: "Lỗi máy chủ khi thêm tin nhắn mới!" });
         }
+
         const newMessage = cv.messages[conversation.messages.length - 1];
         conversation.messages = undefined;
         return res.status(200).json(

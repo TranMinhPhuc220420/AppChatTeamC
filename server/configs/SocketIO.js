@@ -15,7 +15,7 @@ module.exports = (io) => {
 
         socket.on("user-login", (uid) => {
             console.log("Người dùng đăng nhập: ", uid);
-            User.findById(uid).exec((err, user) => {
+            User.findById(uid).   exec((err, user) => {
                 if (user) {
                     user.is_online = true;
                     user.save();
@@ -60,6 +60,7 @@ module.exports = (io) => {
                 conversation.f_id === createId
                     ? conversation.s_id
                     : conversation.f_id;
+            
             socket.broadcast.emit("add-new-conversation", {
                 conversation: conversation,
                 receiveId: otherId,
